@@ -3,6 +3,9 @@ module.exports = {
     appHomepage: {
       contextPath: '/homepage',
       homepageUrl: '/index'
+    },
+    appWebweaver: {
+      defaultRedirectUrl: '/index'
     }
   }
 };

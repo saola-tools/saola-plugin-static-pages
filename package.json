@@ -1,6 +1,6 @@
 {
   "name": "app-homepage",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Devebot application homepage layerware",
   "homepage": "https://github.com/apporo/app-homepage.git",
   "author": {
@@ -9,11 +9,6 @@
     "url": "https://github.com/apporo"
   },
   "main": "index.js",
-  "scripts": {
-    "pretest": "pm2 start test/app/process.json",
-    "test": "node_modules/.bin/cucumber.js test/bdd/features/${BDD_FILE:-*.feature}",
-    "posttest": "pm2 delete test/app/process.json"
-  },
   "engines": {
     "node": "0.10 || 0.11 || 0.12 || 4"
   },
@@ -22,12 +17,12 @@
     "devebot-plugin"
   ],
   "peerDependencies": {
-    "app-webserver": "^0.1.13",
-    "devebot": "^0.1.23"
+    "app-webweaver": "^0.2.1",
+    "devebot": "^0.2.0"
   },
   "dependencies": {
-    "app-webserver": "^0.1.13",
-    "devebot": "^0.1.23"
+    "app-webweaver": "^0.2.1",
+    "devebot": "^0.2.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
