@@ -1,6 +1,6 @@
 {
   "name": "app-static-pages",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Devebot application static pages layerware",
   "homepage": "https://github.com/apporo/app-static-pages.git",
   "author": {
@@ -9,20 +9,17 @@
     "url": "https://github.com/apporo"
   },
   "main": "index.js",
-  "engines": {
-    "node": "0.10 || 0.11 || 0.12 || 4"
-  },
   "keywords": [
     "devebot",
     "devebot-plugin"
   ],
   "peerDependencies": {
-    "app-webweaver": "^0.2.1",
-    "devebot": "^0.2.2"
+    "app-webweaver": "^0.3.0",
+    "devebot": "^0.3.3"
   },
   "dependencies": {
-    "app-webweaver": "^0.2.1",
-    "devebot": "^0.2.2"
+    "app-webweaver": "^0.3.0",
+    "devebot": "^0.3.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",
