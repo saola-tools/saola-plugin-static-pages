@@ -1,8 +1,8 @@
 {
-  "name": "app-homepage",
+  "name": "app-static-pages",
   "version": "0.2.0",
-  "description": "Devebot application homepage layerware",
-  "homepage": "https://github.com/apporo/app-homepage.git",
+  "description": "Devebot application static pages layerware",
+  "homepage": "https://github.com/apporo/app-static-pages.git",
   "author": {
     "name": "apporo",
     "email": "apporo@devebot.com",

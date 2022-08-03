@@ -1,8 +1,6 @@
 module.exports = {
   plugins: {
-    appHomepage: {
-    },
-    appWebweaver: {
+    appStaticPages: {
     }
   }
 };

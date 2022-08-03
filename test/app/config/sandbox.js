@@ -1,6 +1,6 @@
 module.exports = {
   plugins: {
-    appHomepage: {
+    appStaticPages: {
       contextPath: '/homepage',
       homepageUrl: '/index'
     },

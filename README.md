@@ -1,3 +1,3 @@
-# app-homepage
+# app-static-pages
 
-> Devebot application homepage layerware
+> Devebot application static pages layerware
