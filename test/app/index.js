@@ -1,9 +1,14 @@
 'use strict';
 
-var app = require('devebot').launchApplication({
+const path = require('path');
+
+const app = require('devebot').launchApplication({
   appRootPath: __dirname
 }, [
-  '../../index.js'
+  {
+    name: 'app-static-pages',
+    path: path.join(__dirname, '../../index.js')
+  }
 ]);
 
 if (require.main === module) app.server.start();
