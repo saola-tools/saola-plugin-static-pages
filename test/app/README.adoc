@@ -28,3 +28,4 @@ Open the pages:
 
 * http://localhost:7979/
 * http://localhost:7979/index.html
+* http://localhost:7979/info.html

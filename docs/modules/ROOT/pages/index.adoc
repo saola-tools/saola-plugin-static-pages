@@ -1,0 +1,36 @@
+= Tổng quan
+
+Plugin `static-pages` có chức năng cung cấp điểm truy cập đến các tệp bên trong một thư mục được khai báo bởi một đường dẫn.
+
+== Các tham số cấu hình
+
+* `publicDir`: (hoặc `staticDir`) là đường dẫn (đầy đủ) xác định thư mục chứa các tệp có thể được truy cập dưới dạng nội dung web tĩnh. 
+* `contextPath`: là phần đầu đường dẫn trong địa chỉ `URL` tương ứng với thư mục gốc (tức là `publicDir`) của nội dung. Giá trị mặc định của `contextPath` là `/`.
+* `defaultIndex`: Tệp nội dung (thường là HTML) được dùng làm chỉ mục khi truy cập vào đường dẫn URL đến thư mục nội dung. Giá trị mặc định của `defaultIndex` là `index.html`.
+
+Giả sử Host trỏ đến server là `devebot.com:17779`, thì tệp nội dung `${publicDir}/page/about.html` sẽ có địa chỉ truy cập web tương ứng là `http://devebot.com:17779/${contextPath}/page/about.html`.
+
+Ngoài ra, việc truy cập vào địa chỉ `http://devebot.com:17779/${contextPath}` sẽ tương đương với `http://devebot.com:17779/${contextPath}/${defaultIndex}`.
+
+== Các cấu hình thường gặp
+
+Dưới đây là một số tình huống cấu hình cho module này mà chúng ta thường dùng.
+
+**Cấu hình với các thông số mặc định**
+
+[source,javascript]
+.config/sandbox.js
+----
+module.exports = {
+  plugins: {
+    appStaticPages: {
+    }
+  }
+};
+----
+
+Cấu hình sử dụng các thông số mặc định, do đó:
+
+* `http://${Host}/` tương ứng với `http://${Host}/index.html`;
+* `http://${Host}/${pathToContent}` tương ứng với tệp trong thư mục `${publicDir}/${pathToContent}`.
+

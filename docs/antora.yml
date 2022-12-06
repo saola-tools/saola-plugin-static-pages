@@ -1,0 +1,5 @@
+name: app-static-pages
+title: "Devebot Plugin: Static Pages"
+version: master
+nav:
+- modules/ROOT/nav.adoc
