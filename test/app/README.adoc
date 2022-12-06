@@ -1,0 +1,30 @@
+= app-static-pages/app
+
+----
+export DEBUG=devebot*,app*
+export LOGOLITE_DEBUGLOG_ENABLED=true
+----
+
+== Case 1
+
+----
+export DEVEBOT_SANDBOX=case1
+node test/app
+----
+
+Open the pages:
+
+* http://localhost:7979/
+* http://localhost:7979/index.html
+
+== Case 2
+
+----
+export DEVEBOT_SANDBOX=case2
+node test/app
+----
+
+Open the pages:
+
+* http://localhost:7979/
+* http://localhost:7979/index.html
