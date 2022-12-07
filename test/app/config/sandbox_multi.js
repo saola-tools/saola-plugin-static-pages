@@ -7,7 +7,7 @@ module.exports = {
     appStaticPages: {
       entrypoints: [
         {
-          contextPath: "/multi",
+          contextPath: "multi",
           publicDir: path.join(__dirname, "../public/case1"),
           defaultIndex: "index.html",
         },
