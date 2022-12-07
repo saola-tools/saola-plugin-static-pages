@@ -29,3 +29,17 @@ Open the pages:
 * http://localhost:7979/
 * http://localhost:7979/index.html
 * http://localhost:7979/info.html
+
+== Multiple static directories
+
+----
+export DEVEBOT_SANDBOX=multi
+node test/app
+----
+
+Open the pages:
+
+* http://localhost:7979/
+* http://localhost:7979/multi/index.html
+* http://localhost:7979/multi/info1.html
+* http://localhost:7979/multi/info2.html
