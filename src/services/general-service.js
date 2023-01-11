@@ -2,30 +2,66 @@
 
 const path = require("path");
 
-function Service (params = {}) {
-  const { sandboxConfig, loggingFactory, webweaverService } = params || {};
+const Devebot = require("devebot");
+const chores = Devebot.require("chores");
+
+const { PortletMixiner } = require("app-webserver").require("portlet");
+
+function Handler (params = {}) {
+  const { packageName, loggingFactory, configPortletifier, webweaverService } = params || {};
+
+  const L = loggingFactory.getLogger();
+  const T = loggingFactory.getTracer();
+  const blockRef = chores.getBlockRef(__filename, packageName);
+
+  const pluginConfig = configPortletifier.getPluginConfig();
+
+  PortletMixiner.call(this, {
+    pluginConfig,
+    portletForwarder: webweaverService,
+    portletArguments: { L, T, blockRef, webweaverService },
+    PortletConstructor: Portlet,
+  });
+}
+
+Object.assign(Handler.prototype, PortletMixiner.prototype);
+
+function Portlet (params = {}) {
+  const { L, T, blockRef } = params;
+  const { portletName, portletConfig, webweaverService } = params;
+
   const express = webweaverService.express;
+  const this_buildLayers = buildLayers.bind({ L, T, blockRef });
 
-  const layers = [
-    webweaverService.getDefaultRedirectLayer(),
-  ];
+  if (webweaverService.hasPortlet(portletName)) {
+    L && L.has("silly") && L.log("silly", T && T.add({ portletName }).toMessage({
+      tags: [ blockRef ],
+      text: "The Portlet[${portletName}] is available"
+    }));
 
-  if (sandboxConfig.entrypoints) {
-    layers.push(...buildLayers(express, sandboxConfig.entrypoints));
-  } else {
-    layers.push(buildLayer(express, extractEntrypoint(sandboxConfig)));
+    const webweaverServicePortlet = webweaverService.getPortlet(portletName);
+
+    const layers = [
+      webweaverServicePortlet.getDefaultRedirectLayer(),
+    ];
+
+    if (portletConfig.entrypoints) {
+      layers.push(...this_buildLayers(express, portletConfig.entrypoints));
+    } else {
+      layers.push(buildLayer(express, extractEntrypoint(portletConfig)));
+    }
+
+    webweaverServicePortlet.push(layers, portletConfig.priority);
   }
-
-  webweaverService.push(layers, sandboxConfig.priority);
 };
 
-function extractEntrypoint (sandboxConfig) {
+function extractEntrypoint (portletConfig) {
   return {
     name: createLabel(),
-    contextPath: sandboxConfig.contextPath || "/",
-    defaultIndex: sandboxConfig.defaultIndex || "index.html",
-    publicDir: sandboxConfig.publicDir ||
-      sandboxConfig.staticDir ||
+    contextPath: portletConfig.contextPath || "/",
+    defaultIndex: portletConfig.defaultIndex || "index.html",
+    publicDir: portletConfig.publicDir ||
+      portletConfig.staticDir ||
       path.join(__dirname, "../../public"),
   };
 }
@@ -51,10 +87,18 @@ function buildLayer (express, entrypoint) {
 }
 
 function buildLayers (express, entrypoints) {
+  const { L, T, blockRef } = this || {};
   const layers = [];
   if (Array.isArray(entrypoints) && entrypoints.length > 0) {
     for (let [index, entrypoint] of entrypoints.entries()) {
-      layers.push(buildLayer(express, transformEntrypoint(entrypoint, index)));
+      entrypoint = transformEntrypoint(entrypoint, index);
+      //
+      L && L.has("silly") && L.log("silly", T && T.add({ entrypoint }).toMessage({
+        tags: [ blockRef ],
+        text: "The Entrypoint[${entrypoint.contextPath}] is registered"
+      }));
+      //
+      layers.push(buildLayer(express, entrypoint));
     }
   }
   return layers;
@@ -65,8 +109,9 @@ function createLabel (index) {
   return "app-static-pages-" + label;
 }
 
-Service.referenceHash = {
-  webweaverService: "app-webweaver/webweaverService"
+Handler.referenceHash = {
+  configPortletifier: "portletifier",
+  webweaverService: "app-webweaver/webweaverService",
 };
 
-module.exports = Service;
+module.exports = Handler;
