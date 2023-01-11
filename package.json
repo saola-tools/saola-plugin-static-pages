@@ -9,10 +9,26 @@
     "url": "https://github.com/apporo"
   },
   "main": "index.js",
+  "engines": {
+    "node": ">=12"
+  },
   "keywords": [
     "devebot",
     "devebot-plugin"
   ],
+  "scripts": {
+    "clean": "rm -rf ./lib",
+    "clean-modules": "rm -rf ./node_modules && rm ./package-lock.json",
+    "bootstrap": "npm install --ignore-scripts; npm --prefix=test install --ignore-scripts",
+    "build": "npm exec -- babel ./src -d ./lib",
+    "check": "npm exec -- eslint ./src index.js",
+    "check-silent": "npm exec -- eslint --quiet ./src index.js",
+    "pretest": "npm run clean && NODE_ENV=${DEVEBOT_NODE_ENV:-test} npm run build",
+    "testOnly": "npm --prefix=test exec -- mocha --recursive ./**/tdd/*-test.js",
+    "test": "npm run testOnly",
+    "prepublishOnly": "npm run check-silent && npm run clean && NODE_ENV=${DEVEBOT_NODE_ENV:-production} npm run build",
+    "verify": "npm run prepublishOnly && npm run testOnly"
+  },
   "peerDependencies": {
     "app-webweaver": "^0.4.0",
     "devebot": "^0.4.0"
@@ -20,5 +36,19 @@
   "dependencies": {
     "app-webweaver": "^0.4.0",
     "devebot": "^0.4.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "babel-plugin-minify-mangle-names": "^0.5.1",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-security": "^1.5.0",
+    "eslint-plugin-standard": "^4.0.0"
   }
 }

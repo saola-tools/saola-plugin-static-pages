@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const path = require('path');
+const path = require("path");
 
 function Service (params = {}) {
   const { sandboxConfig, loggingFactory, webweaverService } = params || {};
@@ -24,10 +24,10 @@ function extractEntrypoint (sandboxConfig) {
     name: createLabel(),
     contextPath: sandboxConfig.contextPath || "/",
     defaultIndex: sandboxConfig.defaultIndex || "index.html",
-    publicDir: sandboxConfig.publicDir
-      || sandboxConfig.staticDir
-      || path.join(__dirname, '../../public'),
-  }
+    publicDir: sandboxConfig.publicDir ||
+      sandboxConfig.staticDir ||
+      path.join(__dirname, "../../public"),
+  };
 }
 
 function transformEntrypoint (entrypoint, index) {
@@ -47,7 +47,7 @@ function buildLayer (express, entrypoint) {
     middleware: express.static(entrypoint.publicDir, {
       index: entrypoint.defaultIndex,
     })
-  }
+  };
 }
 
 function buildLayers (express, entrypoints) {
@@ -66,7 +66,7 @@ function createLabel (index) {
 }
 
 Service.referenceHash = {
-  webweaverService: 'app-webweaver/webweaverService'
+  webweaverService: "app-webweaver/webweaverService"
 };
 
 module.exports = Service;
