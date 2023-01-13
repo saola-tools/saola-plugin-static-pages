@@ -10,27 +10,32 @@ const { PortletMixiner } = require("app-webserver").require("portlet");
 function Handler (params = {}) {
   const { packageName, loggingFactory, configPortletifier, webweaverService } = params || {};
 
-  const L = loggingFactory.getLogger();
-  const T = loggingFactory.getTracer();
-  const blockRef = chores.getBlockRef(__filename, packageName);
+  const express = webweaverService.express;
 
   const pluginConfig = configPortletifier.getPluginConfig();
 
   PortletMixiner.call(this, {
-    pluginConfig,
-    portletForwarder: webweaverService,
-    portletArguments: { L, T, blockRef, webweaverService },
+    portletDescriptors: lodash.get(pluginConfig, PORTLETS_COLLECTION_NAME),
+    portletReferenceHolders: { webweaverService },
+    portletArguments: { packageName, loggingFactory, express },
     PortletConstructor: Portlet,
   });
 }
 
 Object.assign(Handler.prototype, PortletMixiner.prototype);
 
-function Portlet (params = {}) {
-  const { L, T, blockRef } = params;
-  const { portletName, portletConfig, webweaverService } = params;
+Handler.referenceHash = {
+  configPortletifier: "portletifier",
+  webweaverService: "app-webweaver/webweaverService",
+};
 
-  const express = webweaverService.express;
+function Portlet (params = {}) {
+  const { packageName, loggingFactory, express, portletName, portletConfig, webweaverService } = params;
+
+  const L = loggingFactory.getLogger();
+  const T = loggingFactory.getTracer();
+  const blockRef = chores.getBlockRef(__filename, packageName);
+
   const this_buildLayers = buildLayers.bind({ L, T, blockRef });
 
   if (webweaverService.hasPortlet(portletName)) {
@@ -108,10 +113,5 @@ function createLabel (index) {
   const label = index ? String(index).padStart(3, "0") : "default";
   return "app-static-pages-" + label;
 }
-
-Handler.referenceHash = {
-  configPortletifier: "portletifier",
-  webweaverService: "app-webweaver/webweaverService",
-};
 
 module.exports = Handler;
