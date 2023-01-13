@@ -4,8 +4,10 @@ const path = require("path");
 
 const Devebot = require("devebot");
 const chores = Devebot.require("chores");
+const lodash = Devebot.require("lodash");
 
-const { PortletMixiner } = require("app-webserver").require("portlet");
+const portlet = require("app-webserver").require("portlet");
+const { PORTLETS_COLLECTION_NAME, PortletMixiner } = portlet;
 
 function Handler (params = {}) {
   const { packageName, loggingFactory, configPortletifier, webweaverService } = params || {};
@@ -38,26 +40,22 @@ function Portlet (params = {}) {
 
   const this_buildLayers = buildLayers.bind({ L, T, blockRef });
 
-  if (webweaverService.hasPortlet(portletName)) {
-    L && L.has("silly") && L.log("silly", T && T.add({ portletName }).toMessage({
-      tags: [ blockRef ],
-      text: "The Portlet[${portletName}] is available"
-    }));
+  L && L.has("silly") && L.log("silly", T && T.add({ portletName }).toMessage({
+    tags: [ blockRef ],
+    text: "The Portlet[${portletName}] is available"
+  }));
 
-    const webweaverServicePortlet = webweaverService.getPortlet(portletName);
+  const layers = [
+    webweaverService.getDefaultRedirectLayer(),
+  ];
 
-    const layers = [
-      webweaverServicePortlet.getDefaultRedirectLayer(),
-    ];
-
-    if (portletConfig.entrypoints) {
-      layers.push(...this_buildLayers(express, portletConfig.entrypoints));
-    } else {
-      layers.push(buildLayer(express, extractEntrypoint(portletConfig)));
-    }
-
-    webweaverServicePortlet.push(layers, portletConfig.priority);
+  if (portletConfig.entrypoints) {
+    layers.push(...this_buildLayers(express, portletConfig.entrypoints));
+  } else {
+    layers.push(buildLayer(express, extractEntrypoint(portletConfig)));
   }
+
+  webweaverService.push(layers, portletConfig.priority);
 };
 
 function extractEntrypoint (portletConfig) {
