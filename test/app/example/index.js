@@ -7,7 +7,7 @@ const app = require("devebot").launchApplication({
 }, [
   {
     name: "app-static-pages",
-    path: path.join(__dirname, "../../index.js")
+    path: path.join(__dirname, "../../../index.js")
   }
 ]);
 
