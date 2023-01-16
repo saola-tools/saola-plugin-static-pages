@@ -1,6 +1,6 @@
 "use strict";
 
-const app = require("../app/example");
+const app = require("../app/simplest");
 
 describe("app-static-pages", function() {
   describe("start/stop app.server", function() {
