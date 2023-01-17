@@ -4,20 +4,16 @@ const path = require("path");
 
 const Devebot = require("devebot");
 const chores = Devebot.require("chores");
-const lodash = Devebot.require("lodash");
 
-const portlet = require("app-webserver").require("portlet");
-const { PORTLETS_COLLECTION_NAME, PortletMixiner } = portlet;
+const { PortletMixiner } = require("app-webserver").require("portlet");
 
 function Handler (params = {}) {
-  const { packageName, loggingFactory, configPortletifier, webweaverService } = params || {};
+  const { packageName, loggingFactory, configPortletifier, webweaverService } = params;
 
   const express = webweaverService.express;
 
-  const pluginConfig = configPortletifier.getPluginConfig();
-
   PortletMixiner.call(this, {
-    portletDescriptors: lodash.get(pluginConfig, PORTLETS_COLLECTION_NAME),
+    portletDescriptors: configPortletifier.getPortletDescriptors(),
     portletReferenceHolders: { webweaverService },
     portletArguments: { packageName, loggingFactory, express },
     PortletConstructor: Portlet,
@@ -38,8 +34,6 @@ function Portlet (params = {}) {
   const T = loggingFactory.getTracer();
   const blockRef = chores.getBlockRef(__filename, packageName);
 
-  const this_buildLayers = buildLayers.bind({ L, T, blockRef });
-
   L && L.has("silly") && L.log("silly", T && T.add({ portletName }).toMessage({
     tags: [ blockRef ],
     text: "The Portlet[${portletName}] is available"
@@ -50,6 +44,7 @@ function Portlet (params = {}) {
   ];
 
   if (portletConfig.entrypoints) {
+    const this_buildLayers = buildLayers.bind({ L, T, blockRef });
     layers.push(...this_buildLayers(express, portletConfig.entrypoints));
   } else {
     layers.push(buildLayer(express, extractEntrypoint(portletConfig)));
