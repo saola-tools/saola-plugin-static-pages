@@ -2,10 +2,10 @@
 
 const path = require("path");
 
-const Devebot = require("devebot");
+const Devebot = require("@saola/core");
 const chores = Devebot.require("chores");
 
-const { PortletMixiner } = require("app-webserver").require("portlet");
+const { PortletMixiner } = require("@saola/plugin-webserver").require("portlet");
 
 function Handler (params = {}) {
   const { packageName, loggingFactory, configPortletifier, webweaverService } = params;
@@ -24,7 +24,7 @@ Object.assign(Handler.prototype, PortletMixiner.prototype);
 
 Handler.referenceHash = {
   configPortletifier: "portletifier",
-  webweaverService: "app-webweaver/webweaverService",
+  webweaverService: "@saola/plugin-webweaver/webweaverService",
 };
 
 function Portlet (params = {}) {
@@ -104,7 +104,7 @@ function buildLayers (express, entrypoints) {
 
 function createLabel (index) {
   const label = index ? String(index).padStart(3, "0") : "default";
-  return "app-static-pages-" + label;
+  return "saola-plugin-static-pages-" + label;
 }
 
 module.exports = Handler;

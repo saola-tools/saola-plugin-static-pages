@@ -1,3 +1,3 @@
-# app-static-pages
+# @saola/plugin-static-pages
 
-> Devebot application static pages layerware
+> Saola static pages plugin

@@ -4,11 +4,11 @@ const path = require("path");
 
 module.exports = {
   plugins: {
-    appStaticPages: {
+    pluginStaticPages: {
       publicDir: path.join(__dirname, "../public/case2"),
       defaultIndex: "info.html",
     },
-    appWebweaver: {
+    pluginWebweaver: {
     }
   }
 };

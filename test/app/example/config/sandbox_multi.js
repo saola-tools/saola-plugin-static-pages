@@ -4,7 +4,7 @@ const path = require("path");
 
 module.exports = {
   plugins: {
-    appStaticPages: {
+    pluginStaticPages: {
       entrypoints: [
         {
           contextPath: "multi",
@@ -19,7 +19,7 @@ module.exports = {
       ],
       publicDir: path.join(__dirname, "../public/multi"),
     },
-    appWebweaver: {
+    pluginWebweaver: {
       defaultRedirectUrl: "/multi"
     }
   }

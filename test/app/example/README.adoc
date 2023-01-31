@@ -1,14 +1,14 @@
-= app-static-pages/app
+= @saola/plugin-static-pages/app
 
 ----
-export DEBUG=devebot*,app*
+export DEBUG=saola*,app*
 export LOGOLITE_DEBUGLOG_ENABLED=true
 ----
 
 == Case 1
 
 ----
-export DEVEBOT_SANDBOX=case1
+export SAOLA_SANDBOX=case1
 node test/app
 ----
 
@@ -20,7 +20,7 @@ Open the pages:
 == Case 2
 
 ----
-export DEVEBOT_SANDBOX=case2
+export SAOLA_SANDBOX=case2
 node test/app
 ----
 
@@ -33,7 +33,7 @@ Open the pages:
 == Multiple static directories
 
 ----
-export DEVEBOT_SANDBOX=multi
+export SAOLA_SANDBOX=multi
 node test/app
 ----
 

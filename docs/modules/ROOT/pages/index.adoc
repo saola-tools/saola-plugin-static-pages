@@ -23,7 +23,7 @@ Dưới đây là một số tình huống cấu hình cho module này mà chún
 ----
 module.exports = {
   plugins: {
-    appStaticPages: {
+    pluginStaticPages: {
     }
   }
 };

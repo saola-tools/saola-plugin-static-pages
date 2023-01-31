@@ -1,5 +1,5 @@
-name: app-static-pages
-title: "Devebot Plugin: Static Pages"
+name: saola-plugin-static-pages
+title: "Saola Plugin: Static Pages"
 version: master
 nav:
 - modules/ROOT/nav.adoc
