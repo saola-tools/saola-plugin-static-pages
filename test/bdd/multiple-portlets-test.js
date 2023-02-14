@@ -18,22 +18,22 @@ function requireFresh (moduleName, basePath) {
 }
 
 describe("@saola/plugin-static-pages", function() {
+  before(function() {
+    chores.setEnvironments({
+      SAOLA_SANDBOX: "multi",
+      SAOLA_FORCING_SILENT: "framework,webserver",
+      LOGOLITE_FULL_LOG_MODE: "false",
+      LOGOLITE_ALWAYS_ENABLED: "all",
+      LOGOLITE_ALWAYS_MUTED: "all"
+    });
+  });
+  //
+  after(function() {
+    chores.clearCache();
+  });
+  //
   describe("multiple-portlets", function() {
     const example = requireFresh("../app/example", __dirname);
-    //
-    before(function() {
-      chores.setEnvironments({
-        SAOLA_SANDBOX: "multi",
-        SAOLA_FORCING_SILENT: "framework,webserver",
-        LOGOLITE_FULL_LOG_MODE: "false",
-        LOGOLITE_ALWAYS_ENABLED: "all",
-        LOGOLITE_ALWAYS_MUTED: "all"
-      });
-    });
-    //
-    after(function() {
-      chores.clearCache();
-    });
     //
     it("Request and response smoothly", function() {
       const expected = [

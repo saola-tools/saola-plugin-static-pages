@@ -1,13 +1,8 @@
 {
   "name": "@saola/plugin-static-pages",
-  "version": "0.4.1",
-  "description": "Saola static pages plugin layerware",
-  "homepage": "https://github.com/saolajs/saola-plugin-static-pages.git",
-  "author": {
-    "name": "SaolaJS",
-    "email": "contact@saolajs.com",
-    "url": "https://github.com/saolajs"
-  },
+  "version": "0.4.2",
+  "description": "Saola Static Pages plugin",
+  "author": "Saola Development Team",
   "main": "index.js",
   "engines": {
     "node": ">=12"
@@ -18,16 +13,21 @@
   ],
   "scripts": {
     "clean": "rm -rf ./lib",
-    "clean-modules": "rm -rf ./node_modules && rm ./package-lock.json",
-    "bootstrap": "npm install --ignore-scripts; npm --prefix=test install --ignore-scripts",
+    "clean-modules": "rm -rf ./node_modules ./package-lock.json ./test/node_modules ./test/package-lock.json",
+    "setup-modules": "npm install --ignore-scripts; npm --prefix=test install --ignore-scripts",
+    "reset-modules": "npm run clean-modules && npm run setup-modules",
     "build": "npm exec -- babel ./src -d ./lib",
     "check": "npm exec -- eslint ./src index.js",
     "check-silent": "npm exec -- eslint --quiet ./src index.js",
-    "pretest": "npm run clean && NODE_ENV=${SAOLA_NODE_ENV:-test} npm run build",
-    "testOnly": "npm --prefix=test exec -- mocha --recursive ./test/tdd/*-test.js ./test/bdd/*-test.js",
+    "pretest": "npm run check-silent && npm run clean && NODE_ENV=${SAOLA_NODE_ENV:-test} npm run build",
+    "testOnly": "npm --prefix=test exec -- mocha --recursive test/tdd/*-test.js test/bdd/*-test.js",
     "test": "npm run testOnly",
     "prepublishOnly": "npm run check-silent && npm run clean && NODE_ENV=${SAOLA_NODE_ENV:-production} npm run build",
     "verify": "npm run prepublishOnly && npm run testOnly"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saola-tools/saola-plugin-static-pages.git"
   },
   "peerDependencies": {
     "@saola/core": "^0.4.0",
